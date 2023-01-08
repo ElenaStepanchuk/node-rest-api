@@ -1,8 +1,11 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 const contactsRouter = require("./routes/api/contacts");
+
+const { DB_HOST } = require("./config");
 
 const app = express();
 
@@ -22,5 +25,13 @@ app.use((err, req, res, next) => {
   const { status = 500, message = "Server error" } = err;
   res.status(status).json(message);
 });
+
+mongoose
+  .connect(DB_HOST)
+  .then(() => console.log("Database connect"))
+  .catch((error) => {
+    console.log(error.message);
+    process.exit(1);
+  });
 
 module.exports = app;

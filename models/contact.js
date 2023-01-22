@@ -30,13 +30,18 @@ const contactSchema = Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
 const joiSchema = Joi.object({
   name: Joi.string().alphanum().min(3).max(30).required(),
-  email: Joi.string().email().pattern(regEmail).required(),
+  email: Joi.string().pattern(regEmail).required(),
   phone: Joi.string().min(7).max(20).required(),
   favorite: Joi.boolean(),
 });
